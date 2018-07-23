@@ -2,41 +2,30 @@
  
 using namespace std; 
  
-#define d 100000
- 
-int search(string pat, string txt, int q)
+int base = 126, MOD = 101;
+
+int search(string pat, string txt)
 {
-    int M = pat.length(), N = txt.length(), i, j, p = 0, t = 0, h = 1;
- 
-    for (i = 0; i < M-1; i++)
-        h = (h*d)%q;
- 
-    for (i = 0; i < M; i++)
+    int M = pat.length(), N = txt.length(), p = 0, t = 0, h = 1;
+    for (int x = 1; x < M; x++)
+        h = h * base % MOD;
+    for (int x = 0; x < M; x++)
     {
-        p = (d*p + pat[i])%q;
-        t = (d*t + txt[i])%q;
+        p = (p*base + pat[x]) % MOD;
+        t = (t*base + txt[x]) % MOD;
     }
- 
-    for (i = 0; i <= N - M; i++)
+    for (int x = 0; x <= N-M; x++)
     {
- 
-        if ( p == t )
+        if (p == t)
         {
-            for (j = 0; j < M; j++)
-            {
-                if (txt[i+j] != pat[j])
-                    break;
-            }
- 
-            if (j == M)
-                return i;
+            bool found = true;
+            for (int j = 0; j < M && found; j++)
+                found &= txt[x+j] == pat[j];
+            if (found)
+                return x;
         }
-        if ( i < N-M )
-        {
-            t = (d*(t - txt[i]*h) + txt[i+M])%q;
-            if (t < 0)
-            t = (t + q);
-        }
+        if (x < N-M)
+            t = (((t - txt[x]*h) * base + txt[x+M]) % MOD + MOD) % MOD;
     }
     return -1;
 }
@@ -44,8 +33,8 @@ int search(string pat, string txt, int q)
 int main()
 {
     string txt, pat;
+    cin.tie(0);
+    cin.sync_with_stdio(0);
     cin>>txt>>pat;
-    int q = 101;
-    printf("%i", search(pat, txt, q));
-    return 0;
+    printf("%i\n", search(pat, txt));
 }
