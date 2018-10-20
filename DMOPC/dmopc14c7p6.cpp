@@ -2,69 +2,61 @@
 
 using namespace std;
 
-vector<vector<pair<int,pair<int,int>>>> adj(21);
-vector<int> dist(21, INT_MAX);
-vector<vector<int>> route(6);
-vector<vector<vector<int>>> arrivalTime(21, vector<vector<int>> (6));
+struct node
+{
+    int ma, lazy = 0;
+};
+
+const int MAXN = 100010;
+
+node st[MAXN*6];
+
+void pushdown(int l, int r, int v)
+{
+    if (st[v].lazy)
+    {
+        st[v].ma += st[v].lazy;
+        if (l ^ r)
+            st[v<<1].lazy += st[v].lazy, st[v<<1|1].lazy += st[v].lazy;
+        st[v].lazy = 0;
+    }
+}
+
+void update(int l, int r, int v, int li, int ri, int val)
+{
+    pushdown(l, r, v);
+    if (l > ri || r < li)
+        return;
+    if (l >= li && r <= ri)
+    {
+        st[v].lazy += val;
+        pushdown(l, r, v);
+        return;
+    }
+    int m = l+r>>1;
+    update(l, m, v<<1, li, ri, val);
+    update(m+1, r, v<<1|1, li, ri, val);
+    st[v].ma = max(st[v<<1].ma, st[v<<1|1].ma);
+}
 
 int main()
 {
-    int s, r, u, v, t, q = 0, a, b, c, d;
-    scanf("%i%i%i%i%i", &s, &r, &u, &v, &t);
-    for (int x = 1; x <= r; x++)
+    int n, ma = 0;
+    scanf("%i", &n);
+    vector<int> arr(n+1);
+    for (int x = 1; x <= n; x++)
+        scanf("%i", &arr[x]);
+    for (int x = 1; x <= n; x++)
+        update(1, n, 1, 1, arr[x], (x <= (n>>1) ? -1 : 1));
+    for (int x = n; x >= 0; x--)
     {
-        scanf("%i", &a);
-        q+=a;
-        while (a--)
+        if (!(x&1))
         {
-            scanf("%i", &b);
-            route[x].push_back(b);
+            if (st[1].ma <= 0)
+                return 0 * printf("%i\n", x>>1);
+            update(1, n, 1, 1, arr[x>>1], 2);
         }
+        update(1, n, 1, 1, arr[x], -1);
     }
-    while (q--)
-    {
-        scanf("%i%i%i", &a, &b, &c);
-        while (c--)
-        {
-            scanf("%i", &d);
-            arrivalTime[b][a].push_back(d);
-        }
-    }
-    for (int x = 1; x <= r; x++)
-    {
-        if (!arrivalTime[route[x][0]][x].empty())
-        {
-            for (int y = 1; y < route[x].size(); y++)
-            {
-                adj[route[x][y-1]].push_back(make_pair(route[x][y], make_pair( (1440 + arrivalTime[route[x][y]][x][0] - arrivalTime[route[x][y-1]][x][0])%1440, x)));
-                sort(arrivalTime[route[x][y]][x].begin(), arrivalTime[route[x][y]][x].end());
-            }
-        }
-    }
-    dist[u] = t;
-    queue<int> buf;
-    buf.push(u);
-    while (!buf.empty())
-    {
-        int xx = buf.front(), dd = dist[xx]%1440;
-        buf.pop();
-        for (auto &x : adj[xx])
-        {
-            int aa = x.first, bb = x.second.first, cc = x.second.second;
-            auto it = lower_bound(arrivalTime[xx][cc].begin(), arrivalTime[xx][cc].end(), dd);
-            int add = *it;
-            if (it == arrivalTime[xx][cc].end())
-                add = arrivalTime[xx][cc][0];
-            int ee = dist[xx] + bb + (1440 + add - dd)%1440;
-            if (dist[aa] > ee)
-            {
-                dist[aa] = ee;
-                buf.push(aa);
-            }
-        }
-    }
-    if (dist[v] == INT_MAX)
-        printf("stay home");
-    else
-        printf("%i", dist[v]-t);
 }
+
