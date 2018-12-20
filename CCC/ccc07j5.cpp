@@ -3,22 +3,25 @@
 using namespace std;
 
 vector<int> mot = {0,990,1010,1970,2030,2940,3060,3930,4060,4970,5030,5990,6010,7000};
-int a, b, c, n, cc = 0;
+int a, b, c, n;
+long long dp[100];
 
-void next(int p)
+long long next(int p)
 {
+    if (~dp[p])
+        return dp[p];
     if (mot[p] == 7000)
-    {
-        cc++;
-        return;
-    }
+        return dp[p] = 1;
+    dp[p] = 0;
     for (int x = p+1; x < mot.size(); x++)
         if (mot[x]-mot[p] >= a && mot[x]-mot[p] <= b)
-            next(x);
+            dp[p] += next(x);
+    return dp[p];
 }
 
-int main() 
+int main()
 {
+    memset(dp, -1, sizeof dp);
     scanf("%i%i%i", &a, &b, &n);
     while (n--)
     {
@@ -26,7 +29,6 @@ int main()
         mot.push_back(c);
     }
     sort(mot.begin(), mot.end());
-    next(0);
-    printf("%i", cc);
+    printf("%lli\n", next(0));
     return 0;
 }
