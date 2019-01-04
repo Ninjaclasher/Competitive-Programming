@@ -2,21 +2,37 @@
 
 using namespace std;
 
-int main() 
+int main()
 {
-    set<vector<int>> aa;
     int n;
     scanf("%i", &n);
-    vector<int> a(6);
+    set<string> chk;
+    vector<int> arr(6);
     while (n--)
     {
-        for (auto &x : a)
+        for (auto &x : arr)
             scanf("%i", &x);
-        sort(a.begin(), a.end());
-        if (aa.find(a) != aa.end())
-            return 0 * printf("Twin snowflakes found.");
-        aa.insert(a);
+        string mi = "";
+        for (int x = 0; x < 6; x++)
+        {
+            string cur = "";
+            for (int y = 0; y < 6; y++)
+                cur += to_string(arr[(x+y)%6]) + " ";
+            if (mi == "" || cur < mi)
+                mi = cur;
+        }
+        reverse(arr.begin(), arr.end());
+        for (int x = 0; x < 6; x++)
+        {
+            string cur = "";
+            for (int y = 0; y < 6; y++)
+                cur += to_string(arr[(x+y)%6]) + " ";
+            if (mi == "" || cur < mi)
+                mi = cur;
+        }
+        if (chk.find(mi) != chk.end())
+            return 0 * printf("Twin snowflakes found.\n"); 
+        chk.insert(mi);
     }
-    printf("No two snowflakes are alike.");
-    return 0;
+    printf("No two snowflakes are alike.\n");
 }
