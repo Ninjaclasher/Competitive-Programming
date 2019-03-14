@@ -2,19 +2,20 @@
 
 Problem solutions from various judges and competitions, including:
 
-DMOJ
-SPOJ
-WCIPEG
+ - DMOJ
+ - SPOJ
+ - WCIPEG
 
-APIO
-CCC
-CCO
-COCI
-DMOPC
-DWITE
-Facebook Hacker Cup
-ACM-ICPC
-IOI
-JOI
-LKP
-TLE
+ - APIO
+ - ACM-ICPC
+ - Bubble Cup
+ - CCC
+ - CCO
+ - COCI
+ - DMOPC
+ - DWITE
+ - Facebook Hacker Cup
+ - IOI
+ - JOI
+ - LKP
+ - TLE
