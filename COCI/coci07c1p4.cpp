@@ -35,7 +35,10 @@ long long solve(int l, int r)
             dp[l][r] += (long long)solve(l+1, x-1)*solve(x+1, r);
     }
     if (dp[l][r] > mod)
-        dp[l][r] %= mod, format = "%05lli\n";
+    {
+        dp[l][r] %= mod;
+        dp[l][r] += mod;
+    }
     return dp[l][r];
 }
 
@@ -45,6 +48,8 @@ int main()
     int n;
     scanf("%i", &n);
     cin>>aa;
-    printf(format.c_str(), solve(0, n-1));
+    long long ans = solve(0, n-1);
+    if (ans > mod)
+        format = "%05lli\n";
+    printf(format.c_str(), ans%mod);
 }
-
