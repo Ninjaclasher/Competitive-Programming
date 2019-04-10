@@ -22,16 +22,16 @@ int main()
         else if (!aa[2].empty())
             ans.push_back(aa[2].back()), aa[2].pop_back();
         else
-            return 0 * printf("impossible");
+            return 0 * printf("impossible\n");
     }
     while (!aa[1].empty())
         ans.push_back(aa[1].back()), aa[1].pop_back();
     if (!aa[0].empty())
         ans.push_back(aa[0].back());
     else if (!ans.empty())
-        return 0 * printf("impossible");
+        return 0 * printf("impossible\n");
     while (!aa[2].empty())
         ans.push_back(aa[2].back()), aa[2].pop_back();
-    for (auto x : ans)
-        printf("%i ", x);
+    for (int x = 0; x < ans.size(); x++)
+        printf("%i%c", ans[x], x == ans.size()-1 ? '\n' : ' ');
 }
