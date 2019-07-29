@@ -1,25 +1,20 @@
-#include <iostream>
-
-#define print(x) do {if (x<0) putchar_unlocked('-'), x=-x; for(_=0;x;___[_++]=x%10,x/=10); while(_--)putchar_unlocked(___[_]|'0');}while(0);
-char _, __;
-char ___[16];
+#include <bits/stdc++.h>
 
 using namespace std;
 
-int main() 
+int main()
 {
     int n;
     scanf("%i", &n);
-    int aa[n];
-    putchar('0');
+    vector<int> arr(n);
+    for (auto &x : arr)
+        scanf("%i", &x);
+    vector<pair<int,int>> buf;
     for (int x = 0; x < n; x++)
     {
-        scanf("%i", &aa[x]);
-        int a = x;
-        while (a && aa[--a] <= aa[x]);
-        a = x - a;
-        print(a);
-        putchar(' ');
+        while (!buf.empty() && buf.back().first <= arr[x])
+            buf.pop_back();
+        printf("%i ", buf.empty() ? x : x - buf.back().second);
+        buf.push_back({arr[x], x});
     }
-    return 0;
 }
