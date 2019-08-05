@@ -4,25 +4,30 @@ using namespace std;
 
 int main()
 {
-    int n, a = 0;
-    string name;
-    cin >> n;
-    char f[n];
-    for (int x = 0; x < n; x++)
+    cin.tie(0);
+    cin.sync_with_stdio(0);
+    int n;
+    cin>>n;
+    vector<char> arr(n);
+    for (auto &x : arr)
     {
-        cin >> name;
-        f[x] = name[0];
+        string s;
+        cin>>s;
+        x = tolower(s[0]);
     }
+    long long ans = 0;
+    long long c = 0;
+    char p = '\0';
     for (int x = 0; x < n; x++)
     {
-        for (int y = x; y < n; y++)
+        if (arr[x] != p)
         {
-            if (f[x] == f[y])
-                a++;
-            else
-                break;
+            ans += c * (c+1) / 2;
+            c = 0;
+            p = arr[x];
         }
+        c++;
     }
-    cout << a;
-    return 0;
+    ans += c * (c+1) / 2;
+    printf("%lli\n", ans % 1000000007);
 }
