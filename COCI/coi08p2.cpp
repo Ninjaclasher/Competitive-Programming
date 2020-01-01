@@ -36,6 +36,7 @@ inline bool hasPar(node *n) { return n->par && (n->par->ch[0] == n || n->par->ch
 void rotate(node *n, bool b)
 {
     node *p = n->par;
+    p->ch[!b] = n->ch[b];
     if (n->ch[b])
         n->ch[b]->par = p;
     n->par = p->par;
@@ -189,4 +190,3 @@ int main()
         }
     }
 }
-
