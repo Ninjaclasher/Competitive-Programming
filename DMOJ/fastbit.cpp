@@ -1,3 +1,7 @@
+/* Fake Solution:
+ * `int setbits (unsigned long long a){}`
+ */
+
 #include <bits/stdc++.h>
 
 using namespace std;
