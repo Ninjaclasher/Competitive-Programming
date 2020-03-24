@@ -2,6 +2,9 @@
 
 using namespace std;
 
+#define scan(x) do{while((x=getchar())<'0'); for(x-='0'; '0'<=(_=getchar()); x=(x<<3)+(x<<1)+_-'0');}while(0)
+char _;
+
 vector<vector<int>> adj(1000001);
 
 bool bfs(int a, int b)
@@ -24,13 +27,13 @@ bool bfs(int a, int b)
 int main() 
 {
     int n, m, a, b;
-    scanf("%i%i", &n, &m);
+    scan(n); scan(m);
     while(m--)
     {
-        scanf("%i%i", &a, &b);
+        scan(a); scan(b);
         adj[a].push_back(b);
     }
-    scanf("%i%i", &a, &b);
+    scan(a); scan(b);
     if (bfs(a,b))
         printf("yes");
     else if (bfs(b,a))
