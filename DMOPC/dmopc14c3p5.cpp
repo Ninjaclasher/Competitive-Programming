@@ -28,7 +28,10 @@ int main()
             if (dp[x] != INT_MAX && __builtin_popcountll(dp[x | ww[y]]) > __builtin_popcountll(dp[x])+1)
                 dp[x | ww[y]] = dp[x] | (1LL<<y);
     printf("%i\n", __builtin_popcountll(dp[nn-1]));
+    vector<int> ans;
     for (int x = 0; x < m; x++)
         if (dp[nn-1]>>x&1)
-            printf("%i ", x+1);
+            ans.push_back(x+1);
+    for (int x = 0; x < ans.size(); x++)
+        printf("%i%c", ans[x], x == ans.size()-1 ? '\n' : ' ');
 }
