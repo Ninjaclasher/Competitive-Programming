@@ -6,7 +6,7 @@ using namespace std;
 #define scan(x) do{while((x=getchar())<'0'); for(x-='0'; '0'<=(_=getchar()); x=(x<<3)+(x<<1)+_-'0');}while(0)
 char _;
 
-vector<vector<int>> adj(35000);
+set<int> adj[35000];
 int dist[35000];
 
 int main()
@@ -21,7 +21,7 @@ int main()
         scan(p);
         if (!x) d = b;
         else if (x == 1) dd = b;
-        adj[b].push_back(p);
+        adj[b].insert(p);
     }
     priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> buf;
     dist[d] = 0;
@@ -45,6 +45,8 @@ int main()
                     dist[t] = dist[u]+j;
                     buf.push({dist[t], t});
                 }
+                if (adj[t].find(x) != adj[t].end())
+                    break;
             }
             t = u, j = 0;
             while ((t+=x) < n)
@@ -53,7 +55,9 @@ int main()
                 {
                     dist[t] = dist[u]+j;
                     buf.push({dist[t], t});
-                }                
+                }
+                if (adj[t].find(x) != adj[t].end())
+                    break;
             }
         }
     }
