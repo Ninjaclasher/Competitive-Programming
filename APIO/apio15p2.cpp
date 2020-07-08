@@ -1,30 +1,40 @@
 #include <bits/stdc++.h>
+#pragma GCC optimize("Ofast")
 
 using namespace std;
 
+#define scan(x) do{while((x=getchar())<'0'); for(x-='0'; '0'<=(_=getchar()); x=(x<<3)+(x<<1)+_-'0');}while(0)
+char _;
+
 vector<vector<int>> adj(35000);
-vector<int> dist(35000, INT_MAX);
-vector<bool> vis(35000);
+int dist[35000];
 
 int main()
 {
+    memset(dist, 0x3f, sizeof dist);
     int n, m, b, p, d, dd;
-    scanf("%i%i", &n, &m);
+    scan(n);
+    scan(m);
     for (int x = 0; x < m; x++)
     {
-        scanf("%i%i", &b, &p);
+        scan(b);
+        scan(p);
         if (!x) d = b;
         else if (x == 1) dd = b;
         adj[b].push_back(p);
     }
-    queue<int> buf;
+    priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> buf;
     dist[d] = 0;
-    buf.push(d);
+    buf.push({0, d});
     while (!buf.empty())
     {
-        int u = buf.front();
-        vis[u] = false;
+        int u = buf.top().second;
+        int w = buf.top().first;
         buf.pop();
+        if (w > dist[u])
+            continue;
+        if (u == dd)
+            return 0 * printf("%i\n", dist[u]);
         for (auto &x : adj[u])
         {
             int t = u, j = 0;
@@ -33,8 +43,7 @@ int main()
                 if (dist[u]+(++j) < dist[t])
                 {
                     dist[t] = dist[u]+j;
-                    if (!vis[t])
-                        vis[t] = true, buf.push(t);
+                    buf.push({dist[t], t});
                 }
             }
             t = u, j = 0;
@@ -43,11 +52,10 @@ int main()
                 if (dist[u]+(++j) < dist[t])
                 {
                     dist[t] = dist[u]+j;
-                    if (!vis[t])
-                        vis[t] = true, buf.push(t);
+                    buf.push({dist[t], t});
                 }                
             }
         }
     }
-    printf("%i", dist[dd] == INT_MAX ? -1 : dist[dd]);
+    printf("-1\n");
 }
