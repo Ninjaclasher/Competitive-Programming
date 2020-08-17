@@ -42,6 +42,8 @@ int main()
         }
         cout<<a<<"\n";
         cout<<"The number "<<b<<" is"<<(a[0]==a[1] ? " " : " not ")<<"divisible by 11.\n";
+        if (n)
+            cout<<"\n";
     }
     return 0;
 }
