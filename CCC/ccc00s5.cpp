@@ -44,7 +44,7 @@ int main()
             else
                 r = min(r, xx);
         }
-        if (l < r)
+        if (l <= r)
             printf("The sheep at (%.2Lf, %.2Lf) might be eaten.\n", a.x, a.y);
 nxt:;
     }
