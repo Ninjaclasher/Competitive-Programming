@@ -6,7 +6,7 @@ int main()
 {
     string s;
     cin >> s;
-    assert(s.length() <= 100000);
+    assert(s.length() <= 500000);
     int lcnt = 0, mcnt = 0, scnt = 0;
     for (auto &x : s)
     {
