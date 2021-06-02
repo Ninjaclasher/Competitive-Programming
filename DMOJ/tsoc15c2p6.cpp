@@ -4,11 +4,12 @@ using namespace std;
 
 struct node
 {
-    int mi, lazy;
+    int mi;
+    long long lazy;
 };
 
-node st[200000];
-vector<int> arr(40005, INT_MAX);
+node st[5000000];
+vector<int> arr(1000005, INT_MAX);
 
 int build(int l, int r, int v)
 {
@@ -22,7 +23,7 @@ static inline void pushdown(int l, int r, int v)
 {
     if (st[v].lazy)
     {
-        st[v].mi -= min(st[v].mi, st[v].lazy);
+        st[v].mi -= min((long long)st[v].mi, st[v].lazy);
         if (l ^ r)
         {
             st[v<<1].lazy += st[v].lazy;
@@ -63,4 +64,3 @@ int main()
         printf("%i %i\n", ans, st[1].mi);
     }
 }
-
